@@ -13,14 +13,15 @@
     Encoding  : ASCII
 
   Commands:
-    i1   -> switch status query
-            i11 = switch ON
-            i10 = switch OFF
+    i1     -> switch status query
+              i11 = switch ON
+              i10 = switch OFF
 
-    o11  -> green LED ON   / response: o1
-    o10  -> green LED OFF  / response: o1
-    o21  -> red LED ON     / response: o2
-    o20  -> red LED OFF    / response: o2
+    o11    -> green LED ON   / response: o1
+    o10    -> green LED OFF  / response: o1
+    o21    -> red LED ON     / response: o2
+    o20    -> red LED OFF    / response: o2
+    ALL ON -> green + red LED ON / response: ALL ON
 
   Errors:
     e1 = undefined command
@@ -39,6 +40,7 @@
     - LEDs are OFF at startup.
     - LED state is retained during communication loss.
     - LED outputs assume HIGH-active MOSFET module.
+    - LED blinking is controlled by the PC application, not firmware.
 */
 
 #include <Arduino.h>
@@ -205,6 +207,14 @@ void processCommand(const char* cmd)
   {
     digitalWrite(PIN_LED_RED, LOW);
     sendResponse("o2");
+    return;
+  }
+
+  if (strcmp(cmd, "ALL ON") == 0)
+  {
+    digitalWrite(PIN_LED_GREEN, HIGH);
+    digitalWrite(PIN_LED_RED, HIGH);
+    sendResponse("ALL ON");
     return;
   }
 
