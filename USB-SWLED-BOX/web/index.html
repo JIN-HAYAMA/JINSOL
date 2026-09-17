@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="JIN Solution USB-SWLED BOX Web Control" />
+  <title>USB-SWLED BOX | JIN Solution</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="brand-block">
+        <div class="brand-line">
+          <span class="brand-mark" aria-hidden="true">J</span>
+          <span class="brand-name">JIN Solution</span>
+        </div>
+        <h1>USB-SWLED BOX</h1>
+        <p>Web Control Software</p>
+      </div>
+
+      <div class="connection-card" aria-live="polite">
+        <div id="connectionDot" class="status-dot offline"></div>
+        <div>
+          <div id="connectionLabel" class="connection-label">未接続</div>
+          <div id="connectionDetail" class="connection-detail">USB-SWLED BOXを接続してください</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel connect-panel">
+      <div class="section-title-row">
+        <div>
+          <h2>USB接続</h2>
+          <p class="section-sub">Web Serial API / 115200 bps / 8N1 / CR+LF</p>
+        </div>
+        <div class="protocol-badges">
+          <span>115200</span><span>8N1</span><span>CR+LF</span>
+        </div>
+      </div>
+
+      <div class="connect-actions">
+        <button id="connectBtn" class="btn btn-primary btn-lg">USB-SWLED BOX 接続</button>
+        <button id="disconnectBtn" class="btn btn-secondary btn-lg" disabled>切断</button>
+      </div>
+
+      <div id="supportMessage" class="info-line"></div>
+    </section>
+
+    <section class="dashboard-grid">
+      <section class="panel switch-panel">
+        <div class="section-title-row compact">
+          <div>
+            <h2>スイッチ状態</h2>
+            <p class="section-sub">100ms周期リアルタイム監視</p>
+          </div>
+          <span id="pollStatus" class="mini-status idle">停止</span>
+        </div>
+
+        <div id="switchIndicator" class="switch-display unknown" aria-live="polite">
+          <div class="switch-lamp"></div>
+          <div class="switch-copy">
+            <span class="switch-caption">INPUT</span>
+            <strong id="switchText">---</strong>
+          </div>
+        </div>
+
+        <button id="checkSwitchBtn" class="btn btn-secondary full" disabled>今すぐ状態確認</button>
+      </section>
+
+      <section class="panel summary-panel">
+        <h2>通信状態</h2>
+        <div class="summary-list">
+          <div class="summary-row">
+            <span>ポート</span>
+            <strong id="portName">---</strong>
+          </div>
+          <div class="summary-row">
+            <span>通信速度</span>
+            <strong>115200 bps</strong>
+          </div>
+          <div class="summary-row">
+            <span>監視周期</span>
+            <strong>100 ms</strong>
+          </div>
+          <div class="summary-row">
+            <span>最終受信</span>
+            <strong id="lastRx">---</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel">
+      <div class="section-title-row">
+        <div>
+          <h2>LED 制御</h2>
+          <p class="section-sub">BOXの緑LED・赤LEDを個別制御</p>
+        </div>
+      </div>
+
+      <div class="led-grid">
+        <article class="led-card green">
+          <div class="led-card-head">
+            <div class="led-icon"></div>
+            <div>
+              <span class="led-label">GREEN LED</span>
+              <strong>緑 LED</strong>
+            </div>
+          </div>
+          <div class="control-buttons">
+            <button id="greenOnBtn" class="btn btn-green" disabled>ON</button>
+            <button id="greenOffBtn" class="btn btn-secondary" disabled>OFF</button>
+            <button id="greenBlinkBtn" class="btn btn-outline-green" disabled>点滅 ON</button>
+          </div>
+          <div id="greenState" class="led-state">停止</div>
+        </article>
+
+        <article class="led-card red">
+          <div class="led-card-head">
+            <div class="led-icon"></div>
+            <div>
+              <span class="led-label">RED LED</span>
+              <strong>赤 LED</strong>
+            </div>
+          </div>
+          <div class="control-buttons">
+            <button id="redOnBtn" class="btn btn-red" disabled>ON</button>
+            <button id="redOffBtn" class="btn btn-secondary" disabled>OFF</button>
+            <button id="redBlinkBtn" class="btn btn-outline-red" disabled>点滅 ON</button>
+          </div>
+          <div id="redState" class="led-state">停止</div>
+        </article>
+      </div>
+
+      <div class="all-control">
+        <button id="allOnBtn" class="btn btn-primary" disabled>ALL ON</button>
+        <button id="allOffBtn" class="btn btn-secondary" disabled>ALL OFF</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title-row compact">
+        <div>
+          <h2>通信ログ</h2>
+          <p class="section-sub">状態変化と制御コマンドを表示</p>
+        </div>
+        <div class="log-actions">
+          <button id="downloadLogBtn" class="btn btn-ghost">ログ保存</button>
+          <button id="clearLogBtn" class="btn btn-ghost">クリア</button>
+        </div>
+      </div>
+      <pre id="log" class="log" aria-live="polite"></pre>
+    </section>
+
+    <footer>
+      <span>JIN Solution</span>
+      <span>USB-SWLED BOX</span>
+      <span>Web Control v1.0</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
